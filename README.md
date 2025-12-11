@@ -6,8 +6,6 @@
 
 > Webページを魚拓としてHTML/Markdownファイルで保存できるChrome拡張機能
 
-![Screenshot](docs/screenshot.png)
-
 ## ✨ 機能
 
 - **🖱️ ワンクリック保存** - 拡張機能アイコンをクリックするだけ
