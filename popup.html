@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copyable Capture</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M8.5 10C9.32843 10 10 9.32843 10 8.5C10 7.67157 9.32843 7 8.5 7C7.67157 7 7 7.67157 7 8.5C7 9.32843 7.67157 10 8.5 10Z"
+            fill="currentColor" />
+          <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        <h1>Copyable Capture</h1>
+      </div>
+      <p class="subtitle">Webページを魚拓として保存</p>
+    </header>
+
+    <main class="main">
+      <div class="page-info" id="pageInfo">
+        <div class="info-label">現在のページ</div>
+        <div class="info-title" id="pageTitle">読み込み中...</div>
+        <div class="info-url" id="pageUrl">-</div>
+      </div>
+
+      <div class="settings">
+        <div class="setting-group">
+          <label for="folderName" class="setting-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M22 19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H9L11 6H20C20.5304 6 21.0391 6.21071 21.4142 6.58579C21.7893 6.96086 22 7.46957 22 8V19Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            保存先フォルダ名
+          </label>
+          <input type="text" id="folderName" class="setting-input" placeholder="Copyable-Capture"
+            value="Copyable-Capture">
+          <p class="setting-hint">ダウンロードフォルダ内に作成されます</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            保存形式
+          </label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="saveHtml" checked>
+              <span class="checkbox-custom"></span>
+              HTML (.html)
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="saveMarkdown" checked>
+              <span class="checkbox-custom"></span>
+              Markdown (.md)
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+              <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            画像オプション
+          </label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="saveImages">
+              <span class="checkbox-custom"></span>
+              画像も保存
+            </label>
+          </div>
+          <p class="setting-hint">images/フォルダに画像を保存します</p>
+        </div>
+      </div>
+
+      <button class="capture-btn" id="captureBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>ページを保存</span>
+      </button>
+
+      <div class="status" id="status"></div>
+    </main>
+
+    <footer class="footer">
+      <p>v1.1.0</p>
+    </footer>
+  </div>
+
+  <script src="libs/turndown.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
